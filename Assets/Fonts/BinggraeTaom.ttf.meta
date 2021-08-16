@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 9e2470ba1d15d3c47ada1d9dabd083ed
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Binggrae Taom
+  fontNames:
+  - Binggrae Taom
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3bed2f8cdeb5fe14fba0f7e1fcfbc03c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

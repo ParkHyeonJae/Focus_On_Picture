@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9866c8caad400ad49be3fbb2a995ab74, type: 3}
+  m_Name: MissionSequencer@Test
+  m_EditorClassIdentifier: 
+  missionList:
+  - {fileID: 11400000, guid: 4c498f6bd520d3c4d9d75c31b7020cc5, type: 2}
+  - {fileID: 11400000, guid: c191077019aed3a4596bda8bbcff1f86, type: 2}
+  - {fileID: 11400000, guid: cd7a0d2f1ce1080499d79a10eb771a92, type: 2}

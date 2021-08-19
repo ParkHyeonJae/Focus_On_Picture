@@ -210,7 +210,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 578142634}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -419,7 +419,6 @@ MonoBehaviour:
   _fill: {fileID: 835888134}
   _compass: {fileID: 1555243268}
   _distance: {fileID: 653594513}
-  dummyTarget: {fileID: 720121195}
 --- !u!4 &496377412
 Transform:
   m_ObjectHideFlags: 0

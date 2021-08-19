@@ -19,20 +19,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _compass;
     [SerializeField] private Text _distance;
 
-    public GameObject dummyTarget;
-
     public void Update()
     {
+        #region Billboard
         _compass.rectTransform.LookAt(Camera.main.transform);
         _compass.rectTransform.Rotate(new Vector3(0, 180));
         _distance.rectTransform.LookAt(Camera.main.transform);
         _distance.rectTransform.Rotate(new Vector3(0, 180));
+        #endregion
 
-        float distance = Vector3.Distance(Camera.main.transform.position, dummyTarget.transform.position);
+        //거리 UI 세팅
+        float distance = Vector3.Distance(Camera.main.transform.position, MissionManager.Instance.GetTargetTransform.position);
         _distance.text = distance.ToString("N0") + "M";
 
-        //_compass
-        Vector3 dir = dummyTarget.transform.position - Camera.main.transform.position;
+        //방향 UI 세팅
+        Vector3 dir = MissionManager.Instance.GetTargetTransform.position - Camera.main.transform.position;
         float rotateDegree = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         _compass.transform.rotation = Quaternion.Euler(_compass.rectTransform.rotation.x, _compass.transform.rotation.y, -rotateDegree);
     }

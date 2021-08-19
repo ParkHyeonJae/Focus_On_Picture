@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,30 +15,42 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup _interaction;
     [SerializeField] private Image _fill;
 
-    public IEnumerator FillInteraction()
+    [Header("Billboard")]
+    [SerializeField] private Image _compass;
+    [SerializeField] private Text _distance;
+
+    public GameObject dummyTarget;
+
+    public void Update()
     {
-        float delay = 0.1f;
+        _compass.rectTransform.LookAt(Camera.main.transform);
+        _compass.rectTransform.Rotate(new Vector3(0, 180));
+        _distance.rectTransform.LookAt(Camera.main.transform);
+        _distance.rectTransform.Rotate(new Vector3(0, 180));
+
+        float distance = Vector3.Distance(Camera.main.transform.position, dummyTarget.transform.position);
+        _distance.text = distance.ToString("N0") + "M";
+
+        //_compass
+        Vector3 dir = dummyTarget.transform.position - Camera.main.transform.position;
+        float rotateDegree = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        _compass.transform.rotation = Quaternion.Euler(_compass.rectTransform.rotation.x, _compass.transform.rotation.y, -rotateDegree);
+    }
+
+    public void OnInteraction()
+    {
         float frameDuration = 0.3f;
         float duration = 1.7f;
 
-        if (_interaction.alpha <= 1)
-            _interaction.alpha += (1 * delay) / frameDuration;
-        else if (_fill.fillAmount <= 1)
-            _fill.fillAmount += (1 * delay) / duration;
-
-        if (_fill.fillAmount >= 1)
-            yield return null;
-        else
-        {
-            yield return new WaitForSeconds(delay);
-            StartCoroutine(FillInteraction());
-        }
+        _interaction.DOFade(1, frameDuration).OnComplete(() => _fill.DOFillAmount(1, duration));
     }
 
     public void OffInteraction()
     {
-        _interaction.alpha = 0;
-        _fill.fillAmount = 0;
+        _interaction.DOKill();
+        _fill.DOKill();
+        _interaction.DOFade(0, 0.5f);
+        _fill.DOFillAmount(0, 0.5f);
     }
 
     public void OnMissionPopup(bool bisActive, float duration = 1)

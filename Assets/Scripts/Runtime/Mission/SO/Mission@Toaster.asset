@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bae5a83d240c840a3ef182ec3785b0, type: 3}
   m_Name: Mission@Toaster
   m_EditorClassIdentifier: 
-  missionText: "\uB124\uBAA8\uB09C \uD1A0\uC2A4\uD130\uB97C \uCC0D\uC73C\uC138\uC694
-    !"
+  missionText: Take a picture of the square toaster!
   maxShotCount: 1
-  tag: 8
+  tag: 9

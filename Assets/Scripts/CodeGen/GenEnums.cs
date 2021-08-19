@@ -11,8 +11,8 @@ namespace GenEnums
 		Player,
 		GameController,
 		Cube,
-		Toaster,
 		CubeTop,
+		Toaster,
 		
     }
 

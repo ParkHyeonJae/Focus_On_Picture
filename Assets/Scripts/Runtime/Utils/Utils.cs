@@ -6,7 +6,7 @@ using UnityEngine;
 public class Utils
 {
 
-    public static readonly string Path_ScreenShot = Application.dataPath + "/ScreenShot/";
+    public static readonly string Path_ScreenShot = Application.streamingAssetsPath + "/ScreenShot/";
 
     public static void ScreenShot(Camera targetCamera)
     {
@@ -24,6 +24,6 @@ public class Utils
         outputTex.Apply();
 
         var encodeBytes = outputTex.EncodeToPNG();
-        File.WriteAllBytes(Path_ScreenShot + saveFilePath, encodeBytes);
+        File.WriteAllBytes(Path_ScreenShot + saveFilePath, encodeBytes); 
     }
 }

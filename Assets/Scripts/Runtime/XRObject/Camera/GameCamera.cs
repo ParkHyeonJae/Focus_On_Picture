@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameCamera : global::ScreenshotCameraDevice
+public class GameCamera : global::CameraDevice
 {
     [SerializeField] RawImage _screen;
     protected internal override void OnTakePicture(Transform target)

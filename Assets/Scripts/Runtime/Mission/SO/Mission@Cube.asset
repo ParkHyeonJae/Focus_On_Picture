@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bae5a83d240c840a3ef182ec3785b0, type: 3}
   m_Name: Mission@Cube
   m_EditorClassIdentifier: 
-  missionText: "\uC544\uB984\uB2E4\uC6B4 \uD050\uBE0C\uB97C \uCC0D\uC73C\uC138\uC694!"
+  missionText: Take a beautiful mini cube!
   maxShotCount: 2
   tag: 7

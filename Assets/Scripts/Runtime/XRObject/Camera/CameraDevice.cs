@@ -14,10 +14,10 @@ public class CameraDevice : global::XRObject
     public bool IsExistInsideScreenByObject(Transform target)
     {
         var viewPoint = viewCamera.WorldToViewportPoint(target.position);
+        Debug.Log("view point : " + viewPoint);
         if (!(0 <= viewPoint.x && viewPoint.x <= 1.0f
             && 0 <= viewPoint.y && viewPoint.y <= 1.0f))
             return false;
-
         return true;
     }
 

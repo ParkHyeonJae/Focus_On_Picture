@@ -553,7 +553,7 @@ MonoBehaviour:
   _interaction: {fileID: 1674324079}
   _fill: {fileID: 835888134}
   _compass: {fileID: 1822337726}
-  _distance: {fileID: 0}
+  _distance: {fileID: 494418095}
 --- !u!4 &496377412
 Transform:
   m_ObjectHideFlags: 0

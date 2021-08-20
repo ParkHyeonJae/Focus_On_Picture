@@ -33,8 +33,6 @@ public class MissionManager : MonoBehaviour
     {
         missionSequencer.Init();
 
-
-        Debug.Assert(missionText != null, $"NullReferenceException : missionText");
         SetRangeText(GetCurrentMission.missionText, willClearSequence, GetCurrentMission.maxShotCount);
     }
 
@@ -72,11 +70,16 @@ public class MissionManager : MonoBehaviour
 
     private void SetRangeText(string text, byte cur, byte end)
     {
+        if (missionText is null)
+            return;
         missionText.text = $"{text} [{cur}/{end}]";
     }
 
 
     public void SetText(string text)
-        => missionText.text = text;
-
+    {
+        if (missionText is null)
+            return;
+        missionText.text = text;
+    }
 }

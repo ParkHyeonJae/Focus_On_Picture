@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Billboard")]
     [SerializeField] private Image _compass;
-    [SerializeField] private Text _distance;
+    [SerializeField] private TextMeshProUGUI _distance;
 
     public void Update()
     {

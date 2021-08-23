@@ -24,4 +24,8 @@ public class XRUser : MonoBehaviour
     public Rigidbody RigidBody
         => _rigidbody = _rigidbody ?? GetComponent<Rigidbody>();
 
+    private XRUserInteractaor _xRUserInteractaor;
+    public XRUserInteractaor XRUserInteractaor
+        => _xRUserInteractaor = _xRUserInteractaor ?? GetComponent<XRUserInteractaor>();
+
 }

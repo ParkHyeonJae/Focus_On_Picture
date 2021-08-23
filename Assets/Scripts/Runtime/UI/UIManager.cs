@@ -38,12 +38,12 @@ public class UIManager : MonoBehaviour
         _compass.transform.rotation = Quaternion.Euler(_compass.rectTransform.rotation.x, _compass.transform.rotation.y, -rotateDegree);
     }
 
-    public void OnInteraction()
+    public void OnInteraction(System.Action onInteractCompletedCallback = null)
     {
         float frameDuration = 0.3f;
         float duration = 1.7f;
 
-        _interaction.DOFade(1, frameDuration).OnComplete(() => _fill.DOFillAmount(1, duration));
+        _interaction.DOFade(1, frameDuration).OnComplete(() => _fill.DOFillAmount(1, duration).OnComplete(() => onInteractCompletedCallback?.Invoke()));
     }
 
     public void OffInteraction()

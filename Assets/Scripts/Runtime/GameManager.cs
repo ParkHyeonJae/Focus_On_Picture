@@ -24,4 +24,6 @@ public class GameManager : MonoBehaviour
     private XRUser _xRUser;
     public XRUser User
         => _xRUser = _xRUser ?? FindObjectOfType<XRUser>();
+
+
 }

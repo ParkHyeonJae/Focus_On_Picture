@@ -41,5 +41,6 @@ public class InteractorManager : MonoBehaviour
     {
         //TODO
         Debug.Log("Interaction Completed");
+        GameManager.Instance.User.XRMover.StartMove();
     }
 }

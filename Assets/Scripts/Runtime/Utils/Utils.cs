@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -7,6 +8,18 @@ public class Utils
 {
 
     public static readonly string Path_ScreenShot = Application.streamingAssetsPath + "/ScreenShot/";
+
+    public static readonly string[] Default_Tags =
+    {
+        "Untagged",
+        "Respawn",
+        "Finish",
+        "EditorOnly",
+        "MainCamera",
+        "Player",
+        "GameController",
+        "Sign",
+    };
 
     public static void ScreenShot(Camera targetCamera)
     {
@@ -25,5 +38,14 @@ public class Utils
 
         var encodeBytes = outputTex.EncodeToPNG();
         File.WriteAllBytes(Path_ScreenShot + saveFilePath, encodeBytes); 
+    }
+
+    public static HashSet<string> GetGenTagsToHashSet()
+    {
+        string[] names = Enum.GetNames(typeof(GenEnums.Tags));
+        HashSet<string> tagsName = new HashSet<string>(names);
+        tagsName.ExceptWith(Default_Tags);
+
+        return tagsName;
     }
 }

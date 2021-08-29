@@ -29,6 +29,10 @@ public class MissionManager : MonoBehaviour
 
     public byte willClearSequence;
 
+    private HashSet<string> _missionTags = null;
+    public HashSet<string> missionTags
+        => _missionTags = _missionTags ?? Utils.GetGenTagsToHashSet();
+
     public void Awake()
     {
         missionSequencer.Init();

@@ -16,6 +16,7 @@ namespace GenEnums
 		Wind,
 		Smell,
 		Sun,
+		Sign,
 		
     }
 

@@ -13,6 +13,10 @@ namespace GenEnums
 		Cube,
 		CubeTop,
 		Toaster,
+		Wind,
+		Smell,
+		Sun,
+		Sign,
 		
     }
 

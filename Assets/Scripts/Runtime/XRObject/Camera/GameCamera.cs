@@ -6,11 +6,25 @@ using UnityEngine.UI;
 public class GameCamera : global::CameraDevice
 {
     [SerializeField] RawImage _screen;
+
+    private void Awake()
+    {
+        UIManager.Instance.OnMissionPopup(true);
+    }
+
     protected internal override void OnTakePicture(Transform target)
     {
         base.OnTakePicture(target);
 
-        MissionManager.Instance.MoveNextMission();
+        MissionManager.Instance.MoveNext();
+        UIManager.Instance.OnMissionPopup(false);
+        StartCoroutine(WaitUntilActiveMissionPopup(true));
+    }
+
+    IEnumerator WaitUntilActiveMissionPopup(bool active, float time = 1)
+    {
+        yield return new WaitForSeconds(time);
+        UIManager.Instance.OnMissionPopup(active);
     }
 
     protected internal override void OnTryTakePicture()

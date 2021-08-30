@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,12 +30,23 @@ public class MissionManager : MonoBehaviour
 
     public byte willClearSequence;
 
+    private HashSet<string> _missionTags = null;
+    public HashSet<string> missionTags
+        => _missionTags = _missionTags ?? Utils.GetGenTagsToHashSet();
+
+    private XRSign[] _xrSigns;
+    private sbyte _maxSignSequence;
+    private sbyte _curSignSequence;
+
     public void Awake()
     {
         missionSequencer.Init();
 
+        _xrSigns = FindObjectsOfType<XRSign>();
+        Array.Sort(_xrSigns, new XRSignComparer());
+        _maxSignSequence = (sbyte)_xrSigns.Length;
+        _curSignSequence = 0;
 
-        Debug.Assert(missionText != null, $"NullReferenceException : missionText");
         SetRangeText(GetCurrentMission.missionText, willClearSequence, GetCurrentMission.maxShotCount);
     }
 
@@ -42,7 +54,7 @@ public class MissionManager : MonoBehaviour
         => missionSequencer.Peek();
 
     public GameObject[] GetTargets
-        => GameObject.FindGameObjectsWithTag(GetCurrentMission.targetTag);
+        => (GetCurrentMission is null) ? Array.Empty<GameObject>() : GameObject.FindGameObjectsWithTag(GetCurrentMission.targetTag);
 
     public GameObject GetTargetObject
         => GetTargets[willClearSequence];
@@ -50,33 +62,76 @@ public class MissionManager : MonoBehaviour
     public Transform GetTargetTransform
         => GetTargetObject.transform;
 
-    public void MoveNextMission()
+    public GameObject GetTargetSignObject
+        => _xrSigns[_curSignSequence].gameObject;
+
+    public Transform GetTargetSignTransform
+        => GetTargetSignObject.transform;
+
+    public event Action<Mission, Mission> onMoveNextMissionCallback;
+
+    /// <summary>
+    /// 전체 미션 개수
+    /// </summary>
+    public int AllMissionCount
+        => missionSequencer.missionList.Count;
+
+    /// <summary>
+    /// 현재 미션 진행도
+    /// </summary>
+    public int CurMissionProgress
+        => sequence;
+
+    public void MoveNext()
     {
         var mission = GetCurrentMission;
         if (mission == null)
             return;
 
-        ++willClearSequence;
 
-        if (mission.maxShotCount == willClearSequence)
+        if (mission.maxShotCount == ++willClearSequence)
         {
-            missionSequencer.Pop();
+            Mission prevMission = missionSequencer.Pop();
             mission = GetCurrentMission;
             willClearSequence = 0;
+
             sequence++;
+
+            MoveNextMission(prevMission, mission);
         }
 
-        if (mission == null) SetText(string.Empty);
-        else SetRangeText(mission.missionText, willClearSequence, mission.maxShotCount);
+
+        if (!(mission is null))
+        {
+            SetRangeText(mission.missionText, willClearSequence, mission.maxShotCount); 
+            return;
+        }
+        SetText(string.Empty);
+    }
+
+    private void MoveNextMission(Mission prevMission, Mission nextMission)
+    {
+        if (prevMission.goToNextSign && _curSignSequence < _maxSignSequence - 1)
+        {
+            ++_curSignSequence;
+            onMoveNextMissionCallback.Invoke(prevMission, nextMission);
+        }
+
+        
     }
 
     private void SetRangeText(string text, byte cur, byte end)
     {
+        if (missionText is null)
+            return;
         missionText.text = $"{text} [{cur}/{end}]";
     }
 
 
     public void SetText(string text)
-        => missionText.text = text;
-
+    {
+        if (missionText is null)
+            return;
+        missionText.text = text;
+    }
 }

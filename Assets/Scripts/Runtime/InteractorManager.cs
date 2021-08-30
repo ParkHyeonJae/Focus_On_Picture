@@ -33,8 +33,30 @@ public class InteractorManager : MonoBehaviour
     {
         _uIManager = FindObjectOfType<UIManager>();
 
-        XRUserInteractaor.OnActiveInteraction += new System.Action<UnityEngine.XR.Interaction.Toolkit.XRBaseInteractable>((interactable) => { _uIManager.OnInteraction(OnInteractCompleted); });
+        XRUserInteractaor.OnActiveInteraction += new System.Action<UnityEngine.XR.Interaction.Toolkit.XRBaseInteractable>((interactable) => 
+        {
+            _uIManager.Interaction.transform.position = Vector3.Lerp(Camera.main.transform.position, interactable.transform.position, 0.8f);
+            _uIManager.OnInteraction(OnInteractCompleted);
+        });
         XRUserInteractaor.OnDeactiveInteraction += new System.Action<UnityEngine.XR.Interaction.Toolkit.XRBaseInteractable>((interactable) => { _uIManager.OffInteraction(); });
+
+
+        GameManager.Instance.User.XRMover.onUserStateChanged += XRMover_onUserStateChanged;
+
+
+    }
+
+    private void XRMover_onUserStateChanged(XRMover.EUserState obj)
+    {
+        switch (obj)
+        {
+            case XRMover.EUserState.IDLE:
+                break;
+            case XRMover.EUserState.MOVE:
+                break;
+            default:
+                break;
+        }
     }
 
     void OnInteractCompleted()

@@ -15,13 +15,13 @@ public class XRUserInteractaor : MonoBehaviour
 
     public void OnEnterHover(XRBaseInteractable xRBaseInteractable)
     {
-        if (MissionManager.Instance.missionTags.Contains(xRBaseInteractable.tag) && xRBaseInteractable.GetComponentInChildren<XRSign>() != null)
+        if (xRBaseInteractable.CompareTag("Sign"))
             _OnActiveInteraction(xRBaseInteractable);
     }
 
     public void OnExitHover(XRBaseInteractable xRBaseInteractable)
     {
-        if (MissionManager.Instance.missionTags.Contains(xRBaseInteractable.tag) && xRBaseInteractable.GetComponentInChildren<XRSign>() != null)
+        if (xRBaseInteractable.CompareTag("Sign"))
             _OnDeactiveInteraction(xRBaseInteractable);
     }
 

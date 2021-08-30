@@ -38,14 +38,13 @@ public class XRTriggerDetector : MonoBehaviour
     }
 
 
-    public List<XRTrigger> xRTriggers;
+    [SerializeField] private List<XRTrigger> _xRTriggers;
 
     
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
-        foreach (var trigger in xRTriggers)
+        foreach (var trigger in _xRTriggers)
         {
             if (!trigger.tagSet.Contains(other.tag))
                 continue;
@@ -55,7 +54,7 @@ public class XRTriggerDetector : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        foreach (var trigger in xRTriggers)
+        foreach (var trigger in _xRTriggers)
         {
             if (!trigger.tagSet.Contains(other.tag))
                 continue;
@@ -66,7 +65,7 @@ public class XRTriggerDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        foreach (var trigger in xRTriggers)
+        foreach (var trigger in _xRTriggers)
         {
             if (!trigger.tagSet.Contains(other.tag))
                 continue;

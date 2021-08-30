@@ -16,7 +16,7 @@ public class GameCamera : global::CameraDevice
     {
         base.OnTakePicture(target);
 
-        MissionManager.Instance.MoveNextMission();
+        MissionManager.Instance.MoveNext();
         FindObjectOfType<UIManager>().OnMissionPopup(true);
     }
 

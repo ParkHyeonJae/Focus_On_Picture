@@ -15,3 +15,4 @@ MonoBehaviour:
   missionText: Take a picture of the square toaster!
   maxShotCount: 1
   tag: 9
+  goToNextSign: 1

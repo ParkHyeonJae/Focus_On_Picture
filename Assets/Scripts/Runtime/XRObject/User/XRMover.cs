@@ -4,18 +4,35 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(XRUser))]
 public class XRMover : MonoBehaviour
 {
+    public enum EUserState
+    {
+        /// <summary>
+        /// 정지 상태
+        /// </summary>
+        IDLE = 0,
+        /// <summary>
+        /// 이동 상태
+        /// </summary>
+        MOVE = 1,
+    }
+
+
     [Range(0.1f, 100.0f)]
     [SerializeField] float _moveSpeed = 10f;
+
+    public EUserState eUserState { get; set; } = EUserState.IDLE;
+    public event Action<EUserState> onUserStateChanged;
 
     private XRUser _user;
     private InputAction _lAction;
     private InputAction _rAction;
 
-    bool _isMove = false;
+    Vector3 _moveDir;
 
     CharacterController characterController;
 
@@ -27,51 +44,47 @@ public class XRMover : MonoBehaviour
 
 
         characterController = GetComponent<CharacterController>();
-        StartMove();
+        
         //characterController.attachedRigidbody.useGravity = true;
     }
 
-    Vector3 moveDir;
+    
     private void Update()
     {
-
-        if (!_isMove)
-        {
+        if (eUserState == EUserState.IDLE)
             return;
-        }
 
-        moveDir = _user.MainCamera.transform.rotation * Vector3.forward * 1;
+        _moveDir = _user.MainCamera.transform.rotation * Vector3.forward * 1;
 
 
-        moveDir.y -= 20 * Time.deltaTime;
+        _moveDir.y -= 20 * Time.deltaTime;
 
-        if (moveDir.y > 0)
-            moveDir.y = 0;
+        if (_moveDir.y > 0)
+            _moveDir.y = 0;
 
 
 
         if (characterController)
-        {
-            var coll = characterController.Move(moveDir * Time.deltaTime);
-        }
+            characterController.Move(_moveDir * Time.deltaTime);
 
     }
 
 
     public void StartMove()
     {
-        _isMove = true;
+        eUserState = EUserState.MOVE;
+        _moveDir = _user.MainCamera.transform.rotation * Vector3.forward * 1;
+        DOTween.To(() => new Vector3(0,0,0), x => characterController.Move(x * Time.deltaTime), _moveDir, 1.0f);
 
-        moveDir = _user.MainCamera.transform.rotation * Vector3.forward * 1;
-        DOTween.To(() => new Vector3(0,0,0), x => characterController.Move(x * Time.deltaTime), moveDir, 1.0f);
-
-
+        onUserStateChanged?.Invoke(eUserState);
     }
     public void StopMove()
     {
-        DOTween.To(() => moveDir, x => characterController.Move(x * Time.deltaTime), new Vector3(0, 0, 0), 1.0f);
+        eUserState = EUserState.IDLE;
 
-        _isMove = false;
+        DOTween.To(() => _moveDir, x => characterController.Move(x * Time.deltaTime), new Vector3(0, 0, 0), 1.0f);
+
+        onUserStateChanged?.Invoke(eUserState);
     }
 
 

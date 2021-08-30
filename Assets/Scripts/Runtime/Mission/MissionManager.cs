@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,9 +34,18 @@ public class MissionManager : MonoBehaviour
     public HashSet<string> missionTags
         => _missionTags = _missionTags ?? Utils.GetGenTagsToHashSet();
 
+    private XRSign[] _xrSigns;
+    private sbyte _maxSignSequence;
+    private sbyte _curSignSequence;
+
     public void Awake()
     {
         missionSequencer.Init();
+
+        _xrSigns = FindObjectsOfType<XRSign>();
+        Array.Sort(_xrSigns, new XRSignComparer());
+        _maxSignSequence = (sbyte)_xrSigns.Length;
+        _curSignSequence = 0;
 
         SetRangeText(GetCurrentMission.missionText, willClearSequence, GetCurrentMission.maxShotCount);
     }
@@ -52,24 +62,45 @@ public class MissionManager : MonoBehaviour
     public Transform GetTargetTransform
         => GetTargetObject.transform;
 
-    public void MoveNextMission()
+    public GameObject GetTargetSignObject
+        => _xrSigns[_curSignSequence].gameObject;
+
+    public Transform GetTargetSignTransform
+        => GetTargetSignObject.transform;
+
+    public void MoveNext()
     {
         var mission = GetCurrentMission;
         if (mission == null)
             return;
 
-        ++willClearSequence;
 
-        if (mission.maxShotCount == willClearSequence)
+        if (mission.maxShotCount == ++willClearSequence)
         {
-            missionSequencer.Pop();
+            Mission prevMission = missionSequencer.Pop();
             mission = GetCurrentMission;
             willClearSequence = 0;
+
             sequence++;
+
+            MoveNextMission(prevMission, mission);
         }
 
-        if (mission == null) SetText(string.Empty);
-        else SetRangeText(mission.missionText, willClearSequence, mission.maxShotCount);
+
+        if (!(mission is null))
+        {
+            SetRangeText(mission.missionText, willClearSequence, mission.maxShotCount); 
+            return;
+        }
+        SetText(string.Empty);
+    }
+
+    private void MoveNextMission(Mission prevMission, Mission nextMission)
+    {
+        if (prevMission.goToNextSign && _curSignSequence < _maxSignSequence - 1)
+            ++_curSignSequence;
+
+
     }
 
     private void SetRangeText(string text, byte cur, byte end)

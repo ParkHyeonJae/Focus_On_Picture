@@ -90,7 +90,7 @@ public class UIManager : MonoBehaviour
 
     public void OnMissionPopup(bool bisActive, float duration = 1)
     {
-        string content = MissionManager.Instance.GetCurrentMission.missionText;
+        string content = MissionManager.Instance.GetCurrentMission?.missionText;
         _content.text = content;
 
         string counter = MissionManager.Instance.CurMissionProgress.ToString() + 

@@ -18,4 +18,6 @@ public class Mission : ScriptableObject
         => tag.ToString();
     public GenEnums.Tags tag;
 
+    public bool goToNextSign = false;
+
 }

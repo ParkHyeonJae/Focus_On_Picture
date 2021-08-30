@@ -42,11 +42,11 @@ public class UIManager : MonoBehaviour
         #endregion
 
         //거리 UI 세팅
-        float distance = Vector3.Distance(Camera.main.transform.position, MissionManager.Instance.GetTargetTransform.position);
+        float distance = Vector3.Distance(Camera.main.transform.position, MissionManager.Instance.GetTargetSignTransform.position);
         _distance.text = distance.ToString("N0") + "M";
 
         //방향 UI 세팅
-        Vector3 dir = MissionManager.Instance.GetTargetTransform.position - Camera.main.transform.position;
+        Vector3 dir = MissionManager.Instance.GetTargetSignTransform.position - Camera.main.transform.position;
         float rotateDegree = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         _compass.transform.rotation = Quaternion.Euler(_compass.rectTransform.rotation.x, _compass.transform.rotation.y, -rotateDegree);
 
@@ -56,12 +56,12 @@ public class UIManager : MonoBehaviour
         _gaugeFill.fillAmount = Mathf.Lerp(0.35f, 1, (float)_curMissionValue / (float)_allMissionValue);
     }
 
-    public void OnInteraction()
+    public void OnInteraction(System.Action onInteractCompletedCallback = null)
     {
         float frameDuration = 0.3f;
         float duration = 1.7f;
 
-        _interaction.DOFade(1, frameDuration).OnComplete(() => _fill.DOFillAmount(1, duration));
+        _interaction.DOFade(1, frameDuration).OnComplete(() => _fill.DOFillAmount(1, duration).OnComplete(() => onInteractCompletedCallback?.Invoke()));
     }
 
     public void OffInteraction()

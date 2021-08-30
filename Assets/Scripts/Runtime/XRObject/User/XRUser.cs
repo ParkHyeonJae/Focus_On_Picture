@@ -10,6 +10,10 @@ public class XRUser : MonoBehaviour
     public XRRig XR_Rig
         => _xRRig = _xRRig ?? GetComponentInChildren<XRRig>();
 
+    private XRMover _xRMover;
+    public XRMover XRMover
+        => _xRMover = _xRMover ?? GetComponentInChildren<XRMover>();
+
 
     private InputActionManager _inputActionManager;
     public InputActionManager InputActionManager
@@ -23,5 +27,9 @@ public class XRUser : MonoBehaviour
     private Rigidbody _rigidbody;
     public Rigidbody RigidBody
         => _rigidbody = _rigidbody ?? GetComponent<Rigidbody>();
+
+    private XRUserInteractaor _xRUserInteractaor;
+    public XRUserInteractaor XRUserInteractaor
+        => _xRUserInteractaor = _xRUserInteractaor ?? GetComponent<XRUserInteractaor>();
 
 }

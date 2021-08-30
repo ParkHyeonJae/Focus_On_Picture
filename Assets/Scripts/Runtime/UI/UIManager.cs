@@ -7,28 +7,41 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    private static UIManager _instance;
+    public static UIManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<UIManager>();
+
+                if (_instance == null)
+                    _instance = new GameObject($"@{nameof(UIManager)}").AddComponent<UIManager>();
+
+            }
+            return _instance;
+        }
+    }
+
     [Header("Mission Popup")]
-    [SerializeField] private CanvasGroup _mission;
-    [SerializeField] private Text _content;
-    [SerializeField] private Text _counter;
+    [SerializeField] public CanvasGroup _mission;
+    [SerializeField] public Text _content;
+    [SerializeField] public Text _counter;
 
     [Header("Interaction")]
-    [SerializeField] private CanvasGroup _interaction;
-    [SerializeField] private Image _fill;
+    [SerializeField] public CanvasGroup _interaction;
+    [SerializeField] public Image _fill;
 
     [Header("MissionGauge")]
-    [SerializeField] private TextMeshProUGUI _allMission;
-    [SerializeField] private TextMeshProUGUI _curMission;
+    [SerializeField] public TextMeshProUGUI _allMission;
+    [SerializeField] public TextMeshProUGUI _curMission;
 
     [Header("Billboard")]
-    [SerializeField] private Image _compass;
-    [SerializeField] private TextMeshProUGUI _distance;
-    [SerializeField] private RectTransform _gauge;
-    [SerializeField] private Image _gaugeFill;
-
-    // 작성된 두 변수는 임시로 넣어둔 것이며, 전체 미션의 개수와 현재 미션이 몇 번째인지 알 수 있게 되면 변환할 예정
-    private int _allMissionValue = 8;
-    private int _curMissionValue = 6;
+    [SerializeField] public Image _compass;
+    [SerializeField] public TextMeshProUGUI _distance;
+    [SerializeField] public RectTransform _gauge;
+    [SerializeField] public Image _gaugeFill;
 
     public void Update()
     {
@@ -40,6 +53,9 @@ public class UIManager : MonoBehaviour
         _gauge.LookAt(Camera.main.transform);
         _gauge.Rotate(new Vector3(0, 180));
         #endregion
+
+        int _allMissionValue = MissionManager.Instance.AllMissionCount;
+        int _curMissionValue = MissionManager.Instance.CurMissionProgress;
 
         //거리 UI 세팅
         float distance = Vector3.Distance(Camera.main.transform.position, MissionManager.Instance.GetTargetSignTransform.position);
@@ -76,6 +92,10 @@ public class UIManager : MonoBehaviour
     {
         string content = MissionManager.Instance.GetCurrentMission.missionText;
         _content.text = content;
+
+        string counter = MissionManager.Instance.CurMissionProgress.ToString() + 
+            "/" + MissionManager.Instance.AllMissionCount.ToString();
+        _counter.text = counter;
 
         StartCoroutine(OnActiveMission(bisActive, duration));
     }

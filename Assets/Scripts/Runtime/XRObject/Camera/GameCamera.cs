@@ -9,7 +9,7 @@ public class GameCamera : global::CameraDevice
 
     private void Awake()
     {
-        FindObjectOfType<UIManager>().OnMissionPopup(true);
+        UIManager.Instance.OnMissionPopup(true);
     }
 
     protected internal override void OnTakePicture(Transform target)
@@ -17,7 +17,14 @@ public class GameCamera : global::CameraDevice
         base.OnTakePicture(target);
 
         MissionManager.Instance.MoveNext();
-        FindObjectOfType<UIManager>().OnMissionPopup(true);
+        UIManager.Instance.OnMissionPopup(false);
+        StartCoroutine(WaitUntilActiveMissionPopup(true));
+    }
+
+    IEnumerator WaitUntilActiveMissionPopup(bool active, float time = 1)
+    {
+        yield return new WaitForSeconds(time);
+        UIManager.Instance.OnMissionPopup(active);
     }
 
     protected internal override void OnTryTakePicture()

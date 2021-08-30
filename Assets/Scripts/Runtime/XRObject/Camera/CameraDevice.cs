@@ -28,6 +28,8 @@ public class CameraDevice : global::XRObject
         OnTryTakePicture();
 
         var missionObjects = MissionManager.Instance.GetTargets;
+        if (missionObjects.Length == 0)
+            return;
 
         foreach (var target in missionObjects)
         {

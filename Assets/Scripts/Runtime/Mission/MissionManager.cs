@@ -54,7 +54,7 @@ public class MissionManager : MonoBehaviour
         => missionSequencer.Peek();
 
     public GameObject[] GetTargets
-        => GameObject.FindGameObjectsWithTag(GetCurrentMission.targetTag);
+        => (GetCurrentMission is null) ? Array.Empty<GameObject>() : GameObject.FindGameObjectsWithTag(GetCurrentMission.targetTag);
 
     public GameObject GetTargetObject
         => GetTargets[willClearSequence];
@@ -67,6 +67,8 @@ public class MissionManager : MonoBehaviour
 
     public Transform GetTargetSignTransform
         => GetTargetSignObject.transform;
+
+    public event Action<Mission, Mission> onMoveNextMissionCallback;
 
     /// <summary>
     /// 전체 미션 개수
@@ -110,9 +112,12 @@ public class MissionManager : MonoBehaviour
     private void MoveNextMission(Mission prevMission, Mission nextMission)
     {
         if (prevMission.goToNextSign && _curSignSequence < _maxSignSequence - 1)
+        {
             ++_curSignSequence;
+            onMoveNextMissionCallback.Invoke(prevMission, nextMission);
+        }
 
-
+        
     }
 
     private void SetRangeText(string text, byte cur, byte end)

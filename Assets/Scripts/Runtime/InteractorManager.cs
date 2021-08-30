@@ -35,7 +35,7 @@ public class InteractorManager : MonoBehaviour
 
         XRUserInteractaor.OnActiveInteraction += new System.Action<UnityEngine.XR.Interaction.Toolkit.XRBaseInteractable>((interactable) => 
         {
-            _uIManager.Interaction.transform.position = Vector3.Lerp(Camera.main.transform.position, interactable.transform.position, 0.8f);
+            //_uIManager.Interaction.transform.position = Vector3.Lerp(Camera.main.transform.position, interactable.transform.position, 0.8f);
             _uIManager.OnInteraction(OnInteractCompleted);
         });
         XRUserInteractaor.OnDeactiveInteraction += new System.Action<UnityEngine.XR.Interaction.Toolkit.XRBaseInteractable>((interactable) => { _uIManager.OffInteraction(); });

@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private CanvasGroup _interaction;
     [SerializeField] private Image _fill;
-    public CanvasGroup Interaction => _interaction;
 
     [Header("MissionGauge")]
     [SerializeField] private TextMeshProUGUI _allMission;

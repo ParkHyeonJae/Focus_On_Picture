@@ -68,6 +68,18 @@ public class MissionManager : MonoBehaviour
     public Transform GetTargetSignTransform
         => GetTargetSignObject.transform;
 
+    /// <summary>
+    /// 전체 미션 개수
+    /// </summary>
+    public int AllMissionCount
+        => missionSequencer.missionList.Count;
+
+    /// <summary>
+    /// 현재 미션 진행도
+    /// </summary>
+    public int CurMissionProgress
+        => sequence;
+
     public void MoveNext()
     {
         var mission = GetCurrentMission;
